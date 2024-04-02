@@ -6,12 +6,10 @@ if [ -f "./env" ]; then
 else
   echo 'Enter "API_ID"'
   read API_ID
-  export API_ID=$API_ID
   echo "API_ID=$API_ID" > "./env"
 
   echo 'Enter "API_HASH"'
   read API_HASH
-  export API_HASH=$API_HASH
   echo "API_HASH=$API_HASH" >> "./env"
 fi
 
@@ -28,6 +26,4 @@ pip install --no-cache-dir -r ./requirements.txt
 
 python3 bot.py --session
 
-echo 'Session created. Run "docker-compose up --build" to start bot'
-unset API_ID
-unset API_HASH
+echo 'Session created. Run "docker-compose up -d --build" to start bot'
