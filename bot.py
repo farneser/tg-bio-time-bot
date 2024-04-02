@@ -1,11 +1,16 @@
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon import TelegramClient
-import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 from telethon import errors
+import asyncio
+import pytz
+import os
+import sys
 
-api_id = 123456
-api_hash = 'abcdefg12345'
+api_id = int(os.environ["API_ID"])
+api_hash = os.environ["API_HASH"]
+
+timezone = pytz.timezone(os.environ.get("TIME_ZONE", "Europe/Minsk"))
 
 client = TelegramClient('bio', api_id, api_hash)
 
@@ -15,13 +20,13 @@ async def main():
     print("Program started...")
 
     while True:
-        current_time = (datetime.now() + timedelta(hours=1)).strftime("%H:%M")
+        current_time = (datetime.now(timezone)).strftime("%H:%M")
 
         if current_time != prev_minute:
             prev_minute = current_time
             try:
                 await client(UpdateProfileRequest(
-                    about=f'my local time is {current_time} (utc+3)'
+                    about=f'My local time is {current_time}''
                 ))
 
                 print(f"Bio updated at {current_time}")
@@ -35,8 +40,13 @@ async def main():
             await asyncio.sleep(1)
 
 
-print("Connecting to client...")
-with client:
-    print("Connected successfully!")
-    print("Starting main loop...")
-    client.loop.run_until_complete(main())
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--session":
+            client.start()
+    else:
+        print("Connecting to client...")
+        with client:
+            print("Connected successfully!")
+            print("Starting main loop...")
+            client.loop.run_until_complete(main())

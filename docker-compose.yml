@@ -1,0 +1,13 @@
+version: '3.2'
+
+services:
+  biobot:
+    image: biobot
+    build: .
+    container_name: biobot
+    env_file:
+      - env
+    environment:
+      - TIME_ZONE=Europe/Minsk
+    volumes:
+      - ./bio.session:/app/bio.session
