@@ -11,8 +11,13 @@ api_id = int(os.environ["API_ID"])
 api_hash = os.environ["API_HASH"]
 
 timezone = pytz.timezone(os.environ.get("TIME_ZONE", "Europe/Minsk"))
+pattern = os.environ.get("BIO_PATTERN", "my local time is {TIME}")
 
 client = TelegramClient('bio', api_id, api_hash)
+
+
+def get_text(time: str) -> str:
+    return pattern.replace("{TIME}", time)
 
 
 async def main():
@@ -26,7 +31,7 @@ async def main():
             prev_minute = current_time
             try:
                 await client(UpdateProfileRequest(
-                    about=f'My local time is {current_time}''
+                    about=get_text(current_time)
                 ))
 
                 print(f"Bio updated at {current_time}")

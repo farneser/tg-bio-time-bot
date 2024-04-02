@@ -9,5 +9,6 @@ services:
       - env
     environment:
       - TIME_ZONE=Europe/Minsk
+      - "BIO_PATTERN=my local time is {TIME}"
     volumes:
       - ./bio.session:/app/bio.session
