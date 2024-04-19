@@ -2,9 +2,10 @@ version: '3.2'
 
 services:
   biobot:
-    image: biobot
+    image: tg-time-bio-bot
     build: .
-    container_name: biobot
+    container_name: tg-time-bio-bot
+    restart: unless-stopped
     env_file:
       - env
     environment:
