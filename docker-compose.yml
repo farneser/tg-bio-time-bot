@@ -12,4 +12,4 @@ services:
       - TIME_ZONE=Europe/Minsk
       - "BIO_PATTERN=my local time is {TIME}"
     volumes:
-      - ./bio.session:/app/bio.session
+      - ./session:/app/session

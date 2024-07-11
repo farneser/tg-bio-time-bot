@@ -13,7 +13,11 @@ api_hash = os.environ["API_HASH"]
 timezone = pytz.timezone(os.environ.get("TIME_ZONE", "Europe/Minsk"))
 pattern = os.environ.get("BIO_PATTERN", "my local time is {TIME}")
 
-client = TelegramClient('bio', api_id, api_hash)
+session_path = 'session/bio.session'
+
+os.makedirs(os.path.dirname(session_path), exist_ok=True)
+
+client = TelegramClient(session_path, api_id, api_hash)
 
 
 def get_text(time: str) -> str:
